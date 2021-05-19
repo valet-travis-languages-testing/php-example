@@ -10,31 +10,8 @@ jobs:
     - uses: shivammathur/setup-php@v2
       with:
         php-version: "${{ matrix.php }}"
-    - run: if [[ "$DB" == "pgsql" ]]; then psql -c "DROP DATABASE IF EXISTS hello_world_test;" -U postgres; fi
-    - run: if [[ "$DB" == "pgsql" ]]; then psql -c "create database hello_world_test;" -U postgres; fi
-    - run: if [[ "$DB" == "mysql" ]]; then mysql -e "create database IF NOT EXISTS hello_world_test;" -uroot; fi
-    - run: phpunit --configuration phpunit_$DB.xml --coverage-text
-    - uses: rectalogic/notify-irc@v1
-      with:
-        channel: irc.freenode.org#yourfavouriteroomfortravis
-        nickname: Default nickname
-        message: Default message
+    - run: phpunit
     strategy:
       matrix:
-        DB:
-        - mysql
-        - pgsql
         php:
-        - 5.2
-        - 5.3
-        - 5.4
-        - 5.5
-        - 5.6
         - 7.0
-        - hhvm
-        exclude:
-        - DB: pgsql
-          php: hhvm
-#       # 'allow_failures' transformations are currently unsupported.
-    env:
-      DB: "${{ matrix.DB }}"
