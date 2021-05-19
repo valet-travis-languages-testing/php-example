@@ -9,8 +9,8 @@ jobs:
       uses: actions/checkout@v2
     - uses: shivammathur/setup-php@v2
       with:
-        php-version: "${{ matrix.php }}"
         tools: phpunit
+        php-version: "${{ matrix.php }}"
     - run: phpunit
     strategy:
       matrix:
